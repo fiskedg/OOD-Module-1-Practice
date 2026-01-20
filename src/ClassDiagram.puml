@@ -37,9 +37,14 @@ class Faculty{
     +setCurrentBorrow(currentBorrow:int):void
 }
 
+exception InsufficientCopiesAvailableException{
+    -message:String
+}
+
 'Relations
 LibraryMember <|-- Student
 LibraryMember <|-- Faculty
 Book "1" <-- "*" LibraryMember:borrows
+LibraryMember ..> InsufficientCopiesAvailableException:<<throws>>
 
 @enduml
