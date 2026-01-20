@@ -2,7 +2,7 @@ public abstract class LibraryMember {
     private int memberId; //An integer for the ID of a library member.
     private String memberName; //A String for the name of a library member.
     
-    public abstract void borrowBook(Book book); //An abstract method for checking books out of the library. This will be implemented by the Student and Faculty subclasses.
+    public abstract void borrowBook(Book book) throws InsufficientCopiesAvailableException; //An abstract method for checking books out of the library. This will be implemented by the Student and Faculty subclasses.
 
     /**
      * This is the getter method for the ID of a library member.
@@ -30,12 +30,15 @@ class Student extends LibraryMember{
      * @param book is the current book that the student wishes to check out.
      */
     @Override
-    public void borrowBook(Book book){
+    public void borrowBook(Book book) throws InsufficientCopiesAvailableException{
         if(this.currentBorrow < borrowLimit){
             this.currentBorrow++;
             System.out.println("The current number of books you have borrowed is " + currentBorrow + ". Have a nice day!");
         }else{
             System.out.println("Sorry, you cannot borrow " + book + "as students cannot have more than two books borrowed.");
+        }
+        if(book.getCopiesAvailable()<1){
+            throw new InsufficientCopiesAvailableException();
         }
     }
 
@@ -84,12 +87,15 @@ class Faculty extends LibraryMember{
      * @param book is the current book that the student wishes to check out.
      */
     @Override
-    public void borrowBook(Book book){
+    public void borrowBook(Book book) throws InsufficientCopiesAvailableException{
         if(this.currentBorrow < borrowLimit){
             this.currentBorrow++;
             System.out.println("The current number of books you have borrowed is " + currentBorrow + ". Have a nice day!");
         }else{
             System.out.println("Sorry, you cannot borrow " + book + "as faculty cannot have more than five books borrowed.");
+        }
+        if(book.getCopiesAvailable()<1){
+            throw new InsufficientCopiesAvailableException();
         }
     }
 

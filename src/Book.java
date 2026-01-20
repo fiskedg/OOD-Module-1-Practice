@@ -20,4 +20,8 @@ public class Book {
         System.out.println(edition);
         System.out.println(copiesAvailable);
     }
+
+    public int getCopiesAvailable(){
+        return copiesAvailable;
+    }
 }
