@@ -1,0 +1,45 @@
+@startuml Practice1
+
+class Book{
+    -bookId:int
+    -title:String
+    -author:String
+    -edition:int
+    -copiesAvailable:int
+    +showDetails():void
+}
+
+abstract class LibraryMember{
+    -memberId:int
+    -memberName:String
+    +borrowBook(book:Book):void
+    +getMemberID():int
+    +getMemberName():String   
+}
+
+class Student{
+    -currentBorrow:int
+    -borrowLimit:int
+    +borrowBook(book:Book):void
+    +returnBook():void
+    +getCurrentBorrow():int
+    +getBorrowLimit():int
+    +setCurrentBorrow(currentBorrow:int):void
+}
+
+class Faculty{
+    -currentBorrow:int
+    -borrowLimit:int
+    +borrowBook(book:Book):void
+    +returnBook():void
+    +getCurrentBorrow():int
+    +getBorrowList():int
+    +setCurrentBorrow(currentBorrow:int):void
+}
+
+'Relations
+LibraryMember <|-- Student
+LibraryMember <|-- Faculty
+Book "1" <-- "*" LibraryMember:borrows
+
+@enduml
