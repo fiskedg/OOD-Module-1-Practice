@@ -2,8 +2,11 @@ public abstract class LibraryMember {
     private int memberId; //An integer for the ID of a library member.
     private String memberName; //A String for the name of a library member.
     
+    public LibraryMember(int memberID, String memberName){
+        this.memberId = memberID;
+        this.memberName = memberName;
+    }
     public abstract void borrowBook(Book book) throws InsufficientCopiesAvailableException; //An abstract method for checking books out of the library. This will be implemented by the Student and Faculty subclasses.
-
     /**
      * This is the getter method for the ID of a library member.
      * @return an integer representing the ID of a library member.
@@ -19,11 +22,27 @@ public abstract class LibraryMember {
     public String getMemberName(){
         return this.memberName;
     }
+
+    public static void main(String args[]){
+        Book book = new Book(10, "How to Write Java", "Steve Jobs", 8, 1);
+        Student jeremy = new Student(128, "Jeremy");
+        try {
+            jeremy.borrowBook(book);
+            jeremy.borrowBook(book);
+        } catch (InsufficientCopiesAvailableException ica) {
+            System.out.println(ica.getMessage());
+        }
+    }
 }
 
 class Student extends LibraryMember{
+
     private int currentBorrow = 0; //An integer for the current number of books checked out by a library member.
     private int borrowLimit = 2; //An integer for the total number of books a library member can have checked out at a time.
+
+    public Student(int memberID, String memberName) {
+            super(memberID, memberName);
+        }
 
     /**
      * This method checks out a new book for a student library member granted they have no more than two books.
@@ -31,15 +50,17 @@ class Student extends LibraryMember{
      */
     @Override
     public void borrowBook(Book book) throws InsufficientCopiesAvailableException{
-        if(this.currentBorrow < borrowLimit){
-            this.currentBorrow++;
-            System.out.println("The current number of books you have borrowed is " + currentBorrow + ". Have a nice day!");
-        }else{
-            System.out.println("Sorry, you cannot borrow " + book + "as students cannot have more than two books borrowed.");
-        }
-        if(book.getCopiesAvailable()<1){
+        if(this.currentBorrow >= borrowLimit){
+            System.out.println("Sorry, you have reached your borrow limit.");
+            return;
+        } if(book.getCopiesAvailable()<1){
             throw new InsufficientCopiesAvailableException();
         }
+        this.currentBorrow++;
+        book.setCopiesAvailable(book.getCopiesAvailable() - 1);
+            System.out.println("You have borrowed ");
+            book.showDetails();
+            System.out.println("The current number of books you have borrowed is " + currentBorrow + ". Have a nice day!");
     }
 
       /**
@@ -79,8 +100,12 @@ class Student extends LibraryMember{
     }
 }
 class Faculty extends LibraryMember{
-    private int currentBorrow = 0;
-    private int borrowLimit = 5;
+    private int currentBorrow = 0; //An integer for the current nummber of books a faculty member has borrowed.
+    private int borrowLimit = 5; //An integer for the total number of books a faculty member can borrow.
+
+    public Faculty(int memberID, String memberName) {
+        super(memberID, memberName);
+    }
 
     /**
      * This method checks out a new book for a faculty library member granted they have no more than five books.
@@ -88,15 +113,17 @@ class Faculty extends LibraryMember{
      */
     @Override
     public void borrowBook(Book book) throws InsufficientCopiesAvailableException{
-        if(this.currentBorrow < borrowLimit){
-            this.currentBorrow++;
-            System.out.println("The current number of books you have borrowed is " + currentBorrow + ". Have a nice day!");
-        }else{
-            System.out.println("Sorry, you cannot borrow " + book + "as faculty cannot have more than five books borrowed.");
-        }
-        if(book.getCopiesAvailable()<1){
+        if(this.currentBorrow >= borrowLimit){
+            System.out.println("Sorry, you have reached your borrow limit.");
+            return;
+        } if(book.getCopiesAvailable()<1){
             throw new InsufficientCopiesAvailableException();
         }
+        this.currentBorrow++;
+            System.out.println("You have borrowed ");
+            book.setCopiesAvailable(book.getCopiesAvailable() - 1);
+            book.showDetails();
+            System.out.println("The current number of books you have borrowed is " + currentBorrow + ". Have a nice day!");
     }
 
     /**
