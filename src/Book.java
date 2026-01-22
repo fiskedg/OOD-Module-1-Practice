@@ -14,14 +14,18 @@ public class Book {
     }
 
     public void showDetails(){
-        System.out.println(bookId);
-        System.out.println(title);
-        System.out.println(author);
-        System.out.println(edition);
-        System.out.println(copiesAvailable);
+        System.out.println("Book ID: " + this.bookId);
+        System.out.println("Title: " + this.title);
+        System.out.println("Author: " + this.author);
+        System.out.println("Edition: " + this.edition);
+        System.out.println("Copies Available: " + this.copiesAvailable);
     }
 
     public int getCopiesAvailable(){
-        return copiesAvailable;
+        return this.copiesAvailable;
+    }
+
+    public void setCopiesAvailable(int copiesAvailable){
+        this.copiesAvailable = copiesAvailable;
     }
 }

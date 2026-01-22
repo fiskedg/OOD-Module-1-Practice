@@ -1,1 +1,1 @@
-Library Management System by Matthew Palmer, Jack Rau, and Dillon Fiske
+Library Management System by Jack Rau and Dillon Fiske
